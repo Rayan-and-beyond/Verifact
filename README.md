@@ -1,69 +1,103 @@
-# 👁️ Verifact
+# Verifact 👁️
 
-Verifact is an Agent Skill that checks a Windows computer for suspicious activity, risky security settings, exposed services, and ways software can start automatically.
+Verifact is a skill for AI agents that performs a bounded, read-only security assessment of one Windows computer. It analyzes events already recorded in the Windows Security log and related Windows event logs, checks local system configuration, reviews possible findings, and creates a local HTML report with supporting evidence and clear coverage limits.
 
-When you start an assessment, your AI agent gathers read-only evidence from the computer, investigates it, reviews each potential finding, and creates a local HTML report that explains what it found and why.
+## Evidence Verifact uses
 
-## What it checks
+- The Windows Security log for sign-ins, account changes, privilege use, process activity, services, scheduled tasks, and other security events
+- Related Windows logs for System, Application, PowerShell, Remote Desktop, Task Scheduler, WMI, WinRM, and Windows Firewall activity
+- AppLocker, Code Integrity, and Sysmon logs when they already exist and are enabled
+- Local Windows configuration for accounts, persistence, network exposure, sharing, updates, hardening, and permissions
 
-- Sign-ins, account changes, privileged activity, and remote sessions
-- PowerShell, processes, services, scheduled tasks, WMI, and WinRM activity
-- Local users, administrators, password rules, and audit policy
-- Startup entries and other persistence locations
-- Firewall rules, listening ports, Remote Desktop, WinRM, and SMB shares
-- Windows hardening, installed updates, security-relevant software, and risky permissions
+Verifact does not enable logging or install additional collectors. If a relevant log is disabled, missing, or inaccessible, the report records that as a coverage limit.
 
-Verifact uses the Windows logs and configuration already present on the computer. If evidence is missing or unavailable, the report says so instead of treating that area as safe.
+## What Verifact does
+
+- Analyzes Windows log events to identify security-relevant activity and supporting context
+- Checks endpoint posture such as local users and admin groups, password and audit settings, startup and persistence paths, firewall exposure, listening ports, shares, updates, and security-relevant configuration
+- Ties every finding to local evidence
+- Separates validated findings, rejected leads, and inconclusive leads
+- Shows coverage limits when logs, artifacts, or permissions are missing
+
+## What the agent does
+
+When you call Verifact, the agent:
+
+- Collects read-only Windows evidence
+- Verifies and analyzes it
+- Reviews possible findings
+- Builds a local report
+- Tells you where the report was saved
+
+Windows may ask for Administrator approval so the agent can read protected security data.
 
 ## What you get
 
-- A browser-based report saved on the assessed computer
-- Findings with severity, confidence, and exact supporting evidence
-- Rejected and inconclusive leads, not only confirmed findings
-- A coverage summary showing what Verifact could and could not assess
-- Verified local evidence that can be traced back to each finding
-
-Verifact does not change Windows settings, remove threats, or monitor the computer after the assessment.
+- A local HTML dashboard to display findings
+- Clear findings tied to supporting local evidence
+- Rejected and inconclusive leads too, not just confirmed ones
+- Coverage notes showing what was and was not assessable
 
 ## Install
 
 ### Codex
 
-Start a Codex task and send:
+Send this to Codex:
 
 ```text
 Use $skill-installer to install https://github.com/Rayan-and-beyond/Verifact/tree/main/.agents/skills/verifact
 ```
 
-Restart Codex if prompted.
+Restart Codex if it asks you to.
 
-### Other compatible agents
+### Claude Code
 
-Install the `.agents/skills/verifact` folder using your agent's normal skill installation method. You can also download the release ZIP and place the extracted `verifact` folder in your agent's skills directory.
+Claude Code loads personal skills from `~/.claude/skills/<skill-name>/SKILL.md`.
 
-## Run an assessment
+Copy the `.agents/skills/verifact` folder to:
 
-On the Windows computer you want to assess, open your agent CLI and send:
+```text
+~/.claude/skills/verifact
+```
+
+The installed entry file should be `~/.claude/skills/verifact/SKILL.md`. If `~/.claude/skills` did not already exist, restart Claude Code after installing the skill.
+
+### Other agent CLIs
+
+Install the `.agents/skills/verifact` folder using your agent's normal skill install method.
+
+## Use
+
+### Codex
+
+On the Windows computer you want to assess, tell Codex:
 
 ```text
 Use $verifact to assess this authorized Windows computer end to end.
 ```
 
-The agent handles the assessment and returns the report. Windows may ask you to approve Administrator access so Verifact can read protected security data.
+### Claude Code
+
+Invoke the installed skill directly:
+
+```text
+/verifact assess this authorized Windows computer end to end.
+```
 
 ## Requirements
 
 - Windows 10 or 11
-- Windows PowerShell 5.1 or later
+- PowerShell 5.1 or later
 - Python 3.10 or later
-- An Agent Skills-compatible CLI with terminal access
+- An agent CLI that supports skills and terminal access
 - Permission to assess the computer
 
-## Important limits
+## Limits
 
-- Verifact assesses one Windows computer at a time.
-- It is not antivirus, EDR, continuous monitoring, or a malware sandbox.
-- No assessment can prove that a computer is completely secure.
-- ⚠️ Reports and evidence may contain sensitive system information. Keep them private.
+- Verifact checks one Windows computer at a time.
+- It is not antivirus, EDR, or continuous monitoring.
+- It does not fix problems for you.
+- No tool can prove a computer is fully safe.
+- Reports may contain sensitive system data. Keep them private.
 
 Current release: `2.0.0` · MIT License
