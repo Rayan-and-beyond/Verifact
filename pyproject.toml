@@ -1,7 +1,7 @@
 [project]
 name = "verifact"
 version = "2.0.0"
-description = "Evidence-backed Windows endpoint assessment skill for AI agents"
+description = "AI-agent skill for Windows event logs and endpoint posture"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 

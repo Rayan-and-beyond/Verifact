@@ -1,6 +1,6 @@
 ---
 name: verifact
-description: Perform an end-to-end, bounded, read-only security assessment of the current Windows computer. Use when the user asks to inspect Windows event activity, endpoint posture, persistence, exposure, permissions, hardening, updates, or local security evidence. Do not use for continuous monitoring, exploitation, remediation, or malware detonation.
+description: Perform an end-to-end, bounded, read-only security assessment of the current Windows computer using the Windows Security log, related Windows event logs, and local endpoint configuration. Use when the user asks to inspect Windows event activity, endpoint posture, persistence, exposure, permissions, hardening, updates, or local security evidence. Do not use for continuous monitoring, exploitation, remediation, or malware detonation.
 license: MIT
 ---
 

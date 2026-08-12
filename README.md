@@ -15,7 +15,7 @@ Verifact does not enable logging or install additional collectors. If a relevant
 
 - Analyzes Windows log events to identify security-relevant activity and supporting context
 - Checks endpoint posture such as local users and admin groups, password and audit settings, startup and persistence paths, firewall exposure, listening ports, shares, updates, and security-relevant configuration
-- Ties every finding to local evidence
+- Ties every validated finding to local evidence
 - Separates validated findings, rejected leads, and inconclusive leads
 - Shows coverage limits when logs, artifacts, or permissions are missing
 
@@ -98,6 +98,6 @@ Invoke the installed skill directly:
 - It is not antivirus, EDR, or continuous monitoring.
 - It does not fix problems for you.
 - No tool can prove a computer is fully safe.
-- Reports may contain sensitive system data. Keep them private.
+- ⚠️ Reports may contain sensitive system data. Keep them private.
 
 Current release: `2.0.0` · MIT License
