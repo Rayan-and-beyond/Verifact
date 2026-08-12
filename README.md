@@ -1,105 +1,98 @@
 # Verifact 👁️
 
 **Evidence-backed Windows security assessment for AI agents.**
+Verifact is a skill for AI agents that performs a bounded, read-only security assessment of one Windows computer. It analyzes events already recorded in the Windows Security log and related Windows event logs, checks local system configuration, reviews possible findings, and creates a local HTML report with supporting evidence and clear coverage limits.
 
-Verifact is a skill that lets an AI agent assess one authorized Windows computer.
 
-It checks existing Windows activity and current system configuration, investigates possible security issues, verifies the supporting evidence, and creates a local HTML report.
 
-```mermaid
-flowchart LR
-    A[Windows endpoint] --> B[Collect]
-    B --> C[Verify evidence]
-    C --> D[Investigate]
-    D --> E[Challenge findings]
-    E --> F{Result}
-    F -->|Supported| G[Validated]
-    F -->|Disproved| H[Rejected]
-    F -->|Not enough evidence| I[Inconclusive]
-    G --> J[HTML report]
-    H --> J
-    I --> J
-```
 
-> [!IMPORTANT]
-> A suspicious signal does not automatically become a finding. Verifact checks the evidence and reviews the finding before publication.
+## 🔎 What Verifact checks
 
-## What it checks
+Verifact looks at two things: **what happened on the computer** and **how the computer is configured now**.
+
+It uses Windows Security, System, Application, PowerShell, Remote Desktop, Task Scheduler, WMI, WinRM, and Windows Firewall logs. It can also use AppLocker, Code Integrity, and Sysmon logs when they already exist.
+
+It checks endpoint configuration such as accounts, persistence, firewall exposure, listening ports, shares, permissions, audit settings, updates, and Windows security settings.
 
 | Area | Examples |
 |---|---|
-| **Windows activity** | Sign-ins, account changes, processes, services, PowerShell, RDP, WMI, WinRM |
-| **Persistence** | Services, scheduled tasks, startup items, Run keys, WMI subscriptions |
-| **Accounts** | Local users, administrators, password policy, lockout policy, user rights |
-| **Network exposure** | Firewall rules, listening ports, RDP, WinRM, SMB shares |
-| **Security settings** | Audit policy, UAC, LSA settings, SMB signing, SMBv1, PowerShell v2 |
-| **System state** | Windows version, updates, restart state, security-relevant software |
-| **Permissions** | Share permissions and important local file permissions |
-
-Verifact can also use existing **AppLocker, Code Integrity, and Sysmon** logs.
+| **Activity** | Sign-ins, account changes, processes, services, PowerShell, RDP |
+| **Persistence** | Services, tasks, startup items, Run keys, WMI |
+| **Access** | Users, administrators, passwords, user rights, shares |
+| **Exposure** | Firewall rules, open ports, RDP, WinRM, SMB |
+| **Posture** | Audit settings, UAC, SMB signing, updates, permissions |
 
 The default event window is **120 days**.
 
-## Evidence before conclusions
+Verifact does not enable logging or install collectors.
 
-Verifact uses two evidence sources:
+
+
+## ⚙️ How it works
 
 ```mermaid
-flowchart TB
-    A[Windows endpoint]
-
-    A --> B[Recorded activity]
-    A --> C[Current configuration]
-
-    B --> D[Windows event logs]
-    C --> E[Endpoint posture]
-
-    D --> F[Investigation]
-    E --> F
-
-    F --> G[Evidence-backed findings]
+flowchart LR
+    A[Collect] --> B[Verify]
+    B --> C[Investigate]
+    C --> D[Review]
+    D --> E[Report]
 ```
 
-Verifact does not enable logging or install additional collectors.
+The agent collects available evidence, verifies it, investigates possible findings, and reviews them before publication.
 
-It verifies selected evidence before analysis. Each validated host finding must point to the local record that supports it.
+Windows can request Administrator approval to read protected security data.
 
-Missing evidence stays visible.
+
+
+## 🧠 How findings work
+
+A suspicious signal does not automatically become a finding.
+
+Verifact checks the evidence behind each candidate and performs a separate review before assigning a final result.
+
+| Result | Meaning |
+|---|---|
+| ✅ **Validated** | The evidence supports the finding |
+| ❌ **Rejected** | The evidence does not support the lead |
+| ❔ **Inconclusive** | The available evidence cannot settle it |
+
+Validated findings point back to the local records that support them.
+
+
+
+## 📡 Coverage matters
+
+Verifact records what it could assess and what it could not.
+
+A log with no relevant activity is different from a log that was disabled, missing, or inaccessible.
 
 > [!NOTE]
 > **"Nothing found" and "could not check" are different results.**
 
-## Finding results
+Missing evidence stays visible in the report as a coverage limit.
 
-| Result | Meaning |
-|---|---|
-| ✅ **Validated** | The available evidence supports the finding after review |
-| ❌ **Rejected** | The evidence does not support the lead |
-| ❔ **Inconclusive** | The available evidence cannot resolve the lead |
 
-Candidate findings go through a challenge step before publication. The review checks for missing evidence, contradictions, reasonable benign explanations, and incorrect severity or confidence.
 
-## What you get
+## 📊 What you get
 
-A local HTML report with:
+Verifact creates a local HTML dashboard with:
 
-- validated findings and their evidence
+- validated findings and supporting evidence
 - rejected and inconclusive leads
-- collection scope
-- coverage gaps and limitations
-- assessment and report verification information
+- collection scope and coverage limits
+- assessment and report verification details
 
 ```mermaid
 flowchart LR
-    A[Assessment] --> B[Validated findings]
-    A --> C[Rejected leads]
-    A --> D[Inconclusive leads]
-    A --> E[Coverage limits]
-
-    B --> F[Local HTML report]
-    C --> F
-    D --> F
-    E --> F
+    A[Windows endpoint] --> B[Verifact]
+    B --> C[Validated findings]
+    B --> D[Rejected leads]
+    B --> E[Inconclusive leads]
+    B --> F[Coverage limits]
+    C --> G[HTML report]
+    D --> G
+    E --> G
+    F --> G
 ```
 
 Assessments are stored under:
@@ -108,18 +101,25 @@ Assessments are stored under:
 %LOCALAPPDATA%\Verifact\Assessments\
 ```
 
-## Install
+The report is saved as:
+
+```text
+report\index.html
+```
+
+
+
+## 📦 Install
 
 ### Codex
-
-Send this to Codex:
 
 ```text
 Use $skill-installer to install https://github.com/Rayan-and-beyond/Verifact/tree/main/.agents/skills/verifact
 ```
 
-<details>
-<summary><strong>Claude Code</strong></summary>
+Restart Codex if it asks you to.
+
+### Claude Code
 
 Copy:
 
@@ -133,22 +133,19 @@ to:
 ~/.claude/skills/verifact
 ```
 
-The installed entry file must be:
+The installed entry file should be:
 
 ```text
 ~/.claude/skills/verifact/SKILL.md
 ```
 
-</details>
+### Other agent CLIs
 
-<details>
-<summary><strong>Other agent CLIs</strong></summary>
+Install `.agents/skills/verifact` with your agent's normal skill install method.
 
-Install the `.agents/skills/verifact` folder with the normal skill installation method for your agent.
+---
 
-</details>
-
-## Use
+## ▶️ Use
 
 ### Codex
 
@@ -162,30 +159,27 @@ Use $verifact to assess this authorized Windows computer end to end.
 /verifact assess this authorized Windows computer end to end.
 ```
 
-For a shorter event window:
-
-```text
-Use $verifact to assess this authorized Windows computer for the last 30 days.
-```
 
 ## Requirements
 
-| | Requirement |
-|---|---|
-| **OS** | Windows 10 or 11 |
-| **PowerShell** | 5.1 or later |
-| **Python** | 3.10 or later |
-| **Agent** | Skill support and terminal access |
-| **Access** | Permission to assess the computer |
+- Windows 10 or 11
+- PowerShell 5.1+
+- Python 3.10+
+- An agent CLI with skill and terminal access
+- Permission to assess the computer
 
-## Scope
 
-Verifact performs a **bounded, read-only, point-in-time assessment of one computer**.
 
-It does not provide continuous monitoring, antivirus, EDR, exploitation, or remediation. It does not change logging or system security settings.
+## Limits
+
+Verifact checks **one computer at a time** and performs a **point-in-time, read-only assessment**.
+
+It is not antivirus, EDR, continuous monitoring, exploitation, or remediation. It does not change logging or system security settings.
+
+A Verifact assessment cannot prove that a computer is fully secure.
 
 > [!WARNING]
-> A Verifact assessment cannot prove that a computer is secure or uncompromised. Reports can contain sensitive system data. Keep them private.
+> Reports can contain sensitive system data. Keep them private.
 
 ---
 
