@@ -7,6 +7,8 @@ Verifact is a skill for AI agents that performs a bounded, read-only security as
 
 
 
+
+
 ## 🔎 What Verifact checks
 
 Verifact looks at two things: **what happened on the computer** and **how the computer is configured now**.
@@ -29,6 +31,8 @@ Verifact does not enable logging or install collectors.
 
 
 
+
+
 ## ⚙️ How it works
 
 ```mermaid
@@ -42,6 +46,8 @@ flowchart LR
 The agent collects available evidence, verifies it, investigates possible findings, and reviews them before publication.
 
 Windows can request Administrator approval to read protected security data.
+
+
 
 
 
@@ -61,6 +67,8 @@ Validated findings point back to the local records that support them.
 
 
 
+
+
 ## 📡 Coverage matters
 
 Verifact records what it could assess and what it could not.
@@ -71,6 +79,8 @@ A log with no relevant activity is different from a log that was disabled, missi
 > **"Nothing found" and "could not check" are different results.**
 
 Missing evidence stays visible in the report as a coverage limit.
+
+
 
 
 
@@ -110,6 +120,8 @@ report\index.html
 
 
 
+
+
 ## 📦 Install
 
 ### Codex
@@ -144,7 +156,9 @@ The installed entry file should be:
 
 Install `.agents/skills/verifact` with your agent's normal skill install method.
 
----
+
+
+
 
 ## ▶️ Use
 
