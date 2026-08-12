@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "2.0",
+  "coreTierNames": ["core"],
+  "coreEventFailureStates": [
+    "missing-or-inaccessible",
+    "disabled",
+    "present-boundary-read-failed"
+  ],
+  "coreEventExportFailureStates": ["export-failed", "not-exported"],
+  "allowedFindingStates": ["candidate", "validated", "rejected", "inconclusive"],
+  "publishableFindingStates": ["validated"]
+}

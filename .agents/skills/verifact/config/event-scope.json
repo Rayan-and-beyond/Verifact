@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0",
+  "defaultWindowDays": 120,
+  "excludedFamilies": [
+    "Microsoft-Windows-Windows Defender"
+  ],
+  "channels": [
+    {
+      "name": "Security",
+      "tier": "core",
+      "reason": "Authentication, privilege, audit, account, process, service, and task security events."
+    },
+    {
+      "name": "System",
+      "tier": "core",
+      "reason": "Event Log health, Service Control Manager activity, boot context, and system failures."
+    },
+    {
+      "name": "Application",
+      "tier": "supporting",
+      "reason": "Application and service failures used only to support a concrete security conclusion."
+    },
+    {
+      "name": "Microsoft-Windows-PowerShell/Operational",
+      "tier": "core",
+      "reason": "PowerShell module, script-block, and operational activity when configured."
+    },
+    {
+      "name": "Windows PowerShell",
+      "tier": "supporting",
+      "reason": "Classic PowerShell engine and provider lifecycle records."
+    },
+    {
+      "name": "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+      "tier": "core",
+      "reason": "Remote Desktop session creation, reconnection, disconnection, and logoff."
+    },
+    {
+      "name": "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+      "tier": "core",
+      "reason": "Remote Desktop authentication context requiring Security-log correlation."
+    },
+    {
+      "name": "Microsoft-Windows-TaskScheduler/Operational",
+      "tier": "supporting",
+      "reason": "Task registration and execution supporting concrete persistence or execution findings."
+    },
+    {
+      "name": "Microsoft-Windows-WMI-Activity/Operational",
+      "tier": "supporting",
+      "reason": "WMI execution and persistence context when correlated with other evidence."
+    },
+    {
+      "name": "Microsoft-Windows-WinRM/Operational",
+      "tier": "supporting",
+      "reason": "Windows Remote Management activity and failures."
+    },
+    {
+      "name": "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall",
+      "tier": "supporting",
+      "reason": "Firewall operational changes supporting event-based conclusions."
+    },
+    {
+      "name": "Microsoft-Windows-AppLocker/EXE and DLL",
+      "tier": "optional",
+      "reason": "Existing application-control execution decisions."
+    },
+    {
+      "name": "Microsoft-Windows-AppLocker/MSI and Script",
+      "tier": "optional",
+      "reason": "Existing script and installer application-control decisions."
+    },
+    {
+      "name": "Microsoft-Windows-CodeIntegrity/Operational",
+      "tier": "optional",
+      "reason": "Existing code-integrity enforcement and load decisions."
+    },
+    {
+      "name": "Microsoft-Windows-Sysmon/Operational",
+      "tier": "optional-existing-only",
+      "reason": "High-value existing event evidence; the collector never installs or changes Sysmon."
+    }
+  ]
+}

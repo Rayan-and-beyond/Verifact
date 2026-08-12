@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verifact.local/schemas/review.schema.json",
+  "title": "Verifact finding review",
+  "type": "object",
+  "required": ["schemaVersion", "findingId", "decision", "reviewedUtc", "reviewer", "independence", "identityAssurance", "findingSha256", "summary", "objections"],
+  "properties": {
+    "schemaVersion": {"const": "2.0"},
+    "findingId": {"type": "string", "pattern": "^VF-[0-9]{4}-[0-9]{3,}$"},
+    "decision": {"enum": ["validate", "reject", "inconclusive", "challenge"]},
+    "reviewedUtc": {"type": "string", "format": "date-time"},
+    "reviewer": {"type": "string", "minLength": 1},
+    "independence": {"enum": ["independent-agent", "human-reviewer", "same-agent-separated-pass"]},
+    "identityAssurance": {"const": "unverified-self-attestation"},
+    "findingSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "summary": {"type": "string", "minLength": 5},
+    "objections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "statement", "material", "resolution"],
+        "properties": {
+          "type": {"enum": ["missing-prerequisite", "contradiction", "benign-alternative", "severity", "confidence", "remediation", "other"]},
+          "statement": {"type": "string", "minLength": 3},
+          "material": {"type": "boolean"},
+          "resolution": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

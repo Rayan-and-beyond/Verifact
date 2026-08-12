@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "1.0",
+  "assessmentDomain": "host-posture",
+  "currentHostOnly": true,
+  "readOnlyCollection": true,
+  "nativeWindowsOnly": true,
+  "defenderSpecificCollectionExcluded": true,
+  "excludedFamilies": [
+    "Microsoft Defender-specific collection"
+  ],
+  "sources": [
+    {
+      "id": "identity-local-users",
+      "collector": "LocalUsers",
+      "category": "identity",
+      "description": "Local account state and password-control flags.",
+      "outputPath": "raw/identity/local-users.json",
+      "format": "json"
+    },
+    {
+      "id": "identity-local-groups",
+      "collector": "LocalGroups",
+      "category": "identity",
+      "description": "Local groups and their current direct membership.",
+      "outputPath": "raw/identity/local-groups.json",
+      "format": "json"
+    },
+    {
+      "id": "identity-account-policy",
+      "collector": "AccountPolicy",
+      "category": "identity",
+      "description": "Local password and lockout policy reported by net accounts.",
+      "outputPath": "raw/identity/account-policy.txt",
+      "format": "text"
+    },
+    {
+      "id": "identity-security-policy",
+      "collector": "SecurityPolicy",
+      "category": "identity",
+      "description": "Local user-right assignments and security policy exported read-only by secedit.",
+      "outputPath": "raw/identity/security-policy.inf",
+      "format": "inf"
+    },
+    {
+      "id": "logging-audit-policy",
+      "collector": "AuditPolicy",
+      "category": "audit-logging",
+      "description": "Advanced audit policy in machine-readable auditpol format.",
+      "outputPath": "raw/logging/audit-policy.json",
+      "format": "json"
+    },
+    {
+      "id": "logging-event-channels",
+      "collector": "EventLogConfiguration",
+      "category": "audit-logging",
+      "description": "Configuration and capacity of security-relevant event channels.",
+      "outputPath": "raw/logging/event-log-configuration.json",
+      "format": "json",
+      "options": {
+        "channels": [
+          "Security",
+          "System",
+          "Application",
+          "Microsoft-Windows-PowerShell/Operational",
+          "Windows PowerShell",
+          "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+          "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+          "Microsoft-Windows-TaskScheduler/Operational",
+          "Microsoft-Windows-WMI-Activity/Operational",
+          "Microsoft-Windows-WinRM/Operational",
+          "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall",
+          "Microsoft-Windows-AppLocker/EXE and DLL",
+          "Microsoft-Windows-AppLocker/MSI and Script",
+          "Microsoft-Windows-CodeIntegrity/Operational",
+          "Microsoft-Windows-Sysmon/Operational"
+        ]
+      }
+    },
+    {
+      "id": "persistence-services",
+      "collector": "Services",
+      "category": "persistence",
+      "description": "Installed service configuration and current state.",
+      "outputPath": "raw/persistence/services.json",
+      "format": "json"
+    },
+    {
+      "id": "persistence-scheduled-tasks",
+      "collector": "ScheduledTasks",
+      "category": "persistence",
+      "description": "Scheduled task actions, principals, triggers, settings, and runtime state.",
+      "outputPath": "raw/persistence/scheduled-tasks.json",
+      "format": "json"
+    },
+    {
+      "id": "persistence-startup-commands",
+      "collector": "StartupCommands",
+      "category": "persistence",
+      "description": "Startup commands exposed by the local CIM inventory.",
+      "outputPath": "raw/persistence/startup-commands.json",
+      "format": "json"
+    },
+    {
+      "id": "persistence-startup-folders",
+      "collector": "StartupFolders",
+      "category": "persistence",
+      "description": "Non-recursive metadata for exact machine and current-user Startup folders.",
+      "outputPath": "raw/persistence/startup-folders.json",
+      "format": "json"
+    },
+    {
+      "id": "persistence-run-keys",
+      "collector": "RunKeys",
+      "category": "persistence",
+      "description": "Machine, current-user, and loaded-user Run and RunOnce values.",
+      "outputPath": "raw/persistence/run-keys.json",
+      "format": "json"
+    },
+    {
+      "id": "persistence-wmi-subscriptions",
+      "collector": "WmiSubscriptions",
+      "category": "persistence",
+      "description": "Permanent WMI event filters, consumers, and bindings without collecting embedded script bodies.",
+      "outputPath": "raw/persistence/wmi-subscriptions.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-firewall-profiles",
+      "collector": "FirewallProfiles",
+      "category": "exposure",
+      "description": "Active local firewall profile state.",
+      "outputPath": "raw/exposure/firewall-profiles.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-firewall-inbound-allow",
+      "collector": "FirewallInboundAllowRules",
+      "category": "exposure",
+      "description": "Enabled inbound allow rules from the local active policy store.",
+      "outputPath": "raw/exposure/firewall-inbound-allow-rules.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-tcp-listeners",
+      "collector": "TcpListeners",
+      "category": "exposure",
+      "description": "Local listening TCP endpoints with owning process and service context.",
+      "outputPath": "raw/exposure/tcp-listeners.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-udp-listeners",
+      "collector": "UdpListeners",
+      "category": "exposure",
+      "description": "Local UDP endpoints with owning process and service context.",
+      "outputPath": "raw/exposure/udp-listeners.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-rdp-configuration",
+      "collector": "RdpConfiguration",
+      "category": "exposure",
+      "description": "Local Remote Desktop policy, listener, and service state.",
+      "outputPath": "raw/exposure/rdp-configuration.json",
+      "format": "json"
+    },
+    {
+      "id": "exposure-winrm-configuration",
+      "collector": "WinRmConfiguration",
+      "category": "exposure",
+      "description": "Local WinRM service and listener configuration.",
+      "outputPath": "raw/exposure/winrm-configuration.txt",
+      "format": "text"
+    },
+    {
+      "id": "sharing-smb-shares",
+      "collector": "SmbShares",
+      "category": "sharing-permissions",
+      "description": "Local SMB shares, share permissions, and ACLs on exact share roots.",
+      "outputPath": "raw/sharing/smb-shares.json",
+      "format": "json"
+    },
+    {
+      "id": "hardening-security-controls",
+      "collector": "SecurityControls",
+      "category": "hardening",
+      "description": "UAC, LSA, anonymous-access, SMB signing, SMBv1, and related local hardening controls.",
+      "outputPath": "raw/hardening/security-controls.json",
+      "format": "json"
+    },
+    {
+      "id": "hardening-optional-features",
+      "collector": "OptionalFeatures",
+      "category": "hardening",
+      "description": "Read-only state of PowerShell v2 and SMBv1 optional features.",
+      "outputPath": "raw/hardening/optional-features.json",
+      "format": "json",
+      "options": {
+        "featureNames": [
+          "MicrosoftWindowsPowerShellV2Root",
+          "MicrosoftWindowsPowerShellV2",
+          "SMB1Protocol"
+        ]
+      }
+    },
+    {
+      "id": "system-os-and-updates",
+      "collector": "OsAndUpdates",
+      "category": "updates-software",
+      "description": "Operating system build and locally recorded installed updates.",
+      "outputPath": "raw/system/os-and-updates.json",
+      "format": "json"
+    },
+    {
+      "id": "system-installed-software",
+      "collector": "InstalledSoftware",
+      "category": "updates-software",
+      "description": "Security-relevant software identified from local uninstall registry records.",
+      "outputPath": "raw/system/installed-software.json",
+      "format": "json",
+      "options": {
+        "namePatterns": [
+          "7-Zip",
+          "Adobe",
+          "AnyDesk",
+          "Chrome",
+          "Citrix",
+          "Docker",
+          "Edge",
+          "Firefox",
+          "Forti",
+          "GlobalProtect",
+          "Java",
+          "Kaspersky",
+          "KeePass",
+          "Microsoft 365",
+          "Microsoft Office",
+          "Node.js",
+          "OpenSSH",
+          "OpenVPN",
+          "PowerShell",
+          "PuTTY",
+          "Python",
+          "Remote Desktop",
+          "RustDesk",
+          "SQL Server",
+          "TeamViewer",
+          "VLC",
+          "Visual C++",
+          "VMware",
+          "WinRAR",
+          "Wireshark",
+          "Zoom"
+        ]
+      }
+    },
+    {
+      "id": "system-reboot-status",
+      "collector": "RebootStatus",
+      "category": "updates-software",
+      "description": "Common local pending-reboot indicators without collecting queued path values.",
+      "outputPath": "raw/system/reboot-status.json",
+      "format": "json"
+    },
+    {
+      "id": "permissions-target-acls",
+      "collector": "TargetAcls",
+      "category": "sharing-permissions",
+      "description": "ACLs on exact privileged persistence directories and discovered service, task, startup, and Run-key targets.",
+      "outputPath": "raw/permissions/target-acls.json",
+      "format": "json",
+      "options": {
+        "staticPaths": [
+          "%SystemRoot%\\System32\\Tasks",
+          "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp",
+          "%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
+        ]
+      }
+    }
+  ]
+}

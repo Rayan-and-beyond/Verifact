@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verifact"
+  short_description: "Assess a Windows endpoint end to end"
+  default_prompt: "Use $verifact to assess this authorized Windows computer end to end. Handle every step yourself and return the verified report."

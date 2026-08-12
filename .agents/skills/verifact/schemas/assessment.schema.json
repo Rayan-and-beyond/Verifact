@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verifact.local/schemas/assessment.schema.json",
+  "title": "Verifact assessment",
+  "type": "object",
+  "required": ["schemaVersion", "assessmentId", "createdUtc", "updatedUtc", "status", "target", "scope", "selectedRuns", "coverage"],
+  "properties": {
+    "schemaVersion": {"const": "2.0"},
+    "assessmentId": {"type": "string", "pattern": "^VA-[0-9]{8}T[0-9]{6}Z-[A-F0-9]{6}$"},
+    "createdUtc": {"type": "string", "format": "date-time"},
+    "updatedUtc": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["initialized", "collected", "analyzing", "reviewed", "published"]},
+    "target": {
+      "type": "object",
+      "required": ["kind", "label", "hostIdentitySha256"],
+      "properties": {
+        "kind": {"const": "windows-endpoint"},
+        "label": {"type": "string", "minLength": 1},
+        "hostIdentitySha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": ["mode", "domains", "excludedFamilies", "configs"],
+      "properties": {
+        "mode": {"const": "read-only"},
+        "domains": {
+          "type": "array",
+          "items": {"enum": ["event-activity", "identity", "audit-logging", "persistence", "network-exposure", "sharing-permissions", "hardening", "updates-software"]},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "excludedFamilies": {"type": "array", "contains": {"const": "Microsoft Defender-specific collection"}, "minContains": 1},
+        "configs": {
+          "type": "object",
+          "propertyNames": {"enum": ["events", "posture", "analysis", "eventCollector", "postureCollector", "eventNormalizer", "postureNormalizer"]},
+          "additionalProperties": {"$ref": "#/$defs/configRecord"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "selectedRuns": {
+      "type": "object",
+      "properties": {
+        "events": {"$ref": "#/$defs/selectedRun"},
+        "posture": {"$ref": "#/$defs/selectedRun"}
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["status", "limitations"],
+      "properties": {
+        "status": {"enum": ["unknown", "complete", "degraded"]},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "sources": {
+          "type": "object",
+          "propertyNames": {"enum": ["events", "posture"]},
+          "additionalProperties": {"enum": ["complete", "degraded", "missing", "unknown"]}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "selectedRun": {
+      "type": "object",
+      "required": ["runId", "manifest", "manifestSha256", "hostIdentitySha256"],
+      "properties": {
+        "runId": {"type": "string", "minLength": 1},
+        "manifest": {"type": "string", "minLength": 1},
+        "manifestSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "hostIdentitySha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "configRecord": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Primary-analysis extraction scope. Inclusion means reviewable, not suspicious.",
+  "excludedProviderPatterns": [
+    "(?i)defender",
+    "(?i)^SecurityCenter$"
+  ],
+  "channels": [
+    {
+      "name": "Security",
+      "includeEventIds": [
+        1100,
+        1101,
+        1102,
+        4616,
+        4624,
+        4625,
+        4634,
+        4647,
+        4648,
+        4672,
+        4688,
+        4697,
+        4698,
+        4699,
+        4700,
+        4701,
+        4702,
+        4719,
+        4720,
+        4722,
+        4723,
+        4724,
+        4725,
+        4726,
+        4727,
+        4728,
+        4729,
+        4730,
+        4731,
+        4732,
+        4733,
+        4734,
+        4735,
+        4737,
+        4738,
+        4740,
+        4754,
+        4755,
+        4756,
+        4757,
+        4768,
+        4769,
+        4771,
+        4776,
+        4778,
+        4779,
+        4902,
+        4904,
+        4905,
+        4906,
+        4907,
+        4908,
+        4912
+      ]
+    },
+    {
+      "name": "System",
+      "providerEventIds": [
+        {
+          "provider": "Service Control Manager",
+          "eventIds": [7000, 7001, 7009, 7011, 7022, 7023, 7024, 7026, 7030, 7031, 7032, 7034, 7040, 7045, 7046]
+        },
+        {
+          "provider": "EventLog",
+          "eventIds": [6005, 6006, 6008, 6009, 6011]
+        },
+        {
+          "provider": "Microsoft-Windows-Eventlog",
+          "eventIds": [104, 1100]
+        },
+        {
+          "provider": "User32",
+          "eventIds": [1074]
+        },
+        {
+          "provider": "Microsoft-Windows-Kernel-Power",
+          "eventIds": [41, 109]
+        },
+        {
+          "provider": "Microsoft-Windows-WER-SystemErrorReporting",
+          "eventIds": [1001]
+        }
+      ]
+    },
+    {
+      "name": "Application",
+      "maximumNumericLevel": 2
+    },
+    {
+      "name": "Microsoft-Windows-PowerShell/Operational",
+      "includeAll": true
+    },
+    {
+      "name": "Windows PowerShell",
+      "includeEventIds": [400, 403, 600]
+    },
+    {
+      "name": "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+      "includeEventIds": [21, 22, 23, 24, 25, 39, 40]
+    },
+    {
+      "name": "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+      "includeEventIds": [1149]
+    },
+    {
+      "name": "Microsoft-Windows-TaskScheduler/Operational",
+      "includeEventIds": [101, 103, 106, 111, 114, 118, 119, 140, 141, 142, 153, 202, 203, 322, 324, 325, 332, 411]
+    },
+    {
+      "name": "Microsoft-Windows-WMI-Activity/Operational",
+      "includeEventIds": [5857, 5858, 5859, 5860, 5861]
+    },
+    {
+      "name": "Microsoft-Windows-WinRM/Operational",
+      "includeAll": true
+    },
+    {
+      "name": "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall",
+      "includeAll": true
+    },
+    {
+      "name": "Microsoft-Windows-AppLocker/EXE and DLL",
+      "includeAll": true
+    },
+    {
+      "name": "Microsoft-Windows-AppLocker/MSI and Script",
+      "includeAll": true
+    },
+    {
+      "name": "Microsoft-Windows-CodeIntegrity/Operational",
+      "includeAll": true
+    },
+    {
+      "name": "Microsoft-Windows-Sysmon/Operational",
+      "includeAll": true
+    }
+  ]
+}
