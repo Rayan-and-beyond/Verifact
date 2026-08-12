@@ -1,6 +1,7 @@
 # Verifact 👁️
 
 **Evidence-backed Windows security assessment for AI agents.**
+
 Verifact is a skill for AI agents that performs a bounded, read-only security assessment of one Windows computer. It analyzes events already recorded in the Windows Security log and related Windows event logs, checks local system configuration, reviews possible findings, and creates a local HTML report with supporting evidence and clear coverage limits.
 
 
