@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/verifact-cover.png" alt="Verifact" width="100%"></p>
+
 # Verifact 👁️
 
 **Evidence-backed Windows security assessment for AI agents.**
