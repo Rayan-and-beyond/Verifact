@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/verifact-cover.png" alt="Verifact" width="100%"></p>
+<p align="center"><img src="assets/verifact-banner.png" alt="Verifact" width="80%"></p>
 
 # Verifact 👁️
 
